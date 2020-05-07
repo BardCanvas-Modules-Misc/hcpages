@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<language>
+    
+    <display_name>Hardcoded Pages</display_name>
+    <icon>fa-file-text-o</icon>
+    <description>
+        Create off-index documents.
+    </description>
+    
+    <admin>
+        <menu_items>
+            <admin_menu_caption>Pages</admin_menu_caption>
+        </menu_items>
+    </admin>
+    
+    <index>
+        <title>Pages maintenance</title>
+        <create>Create page</create>
+        <creating>Creating page</creating>
+        <editing>Editing page</editing>
+    </index>
+    
+    <form>
+        <title>
+            <caption>Title:</caption>
+            <placeholder>Enter a title for the page</placeholder>
+        </title>
+        <path>
+            <caption>Document path:</caption>
+            <placeholder>Lowercase alphanumeric, dots, dashes and underscores only</placeholder>
+        </path>
+        <layout>
+            <caption>Document layout:</caption>
+            <options>
+                <main>
+                    <caption>Main</caption>
+                    <info>Normal layout, with full header/footer and sidebars.</info>
+                </main>
+                <admin>
+                    <caption>Admin</caption>
+                    <info>Full width, no footer, might have a simplified header and only the left sidebar.</info>
+                </admin>
+                <popup>
+                    <caption>Popup</caption>
+                    <info>No header or footer, suitable for popups.</info>
+                </popup>
+                <embeddable>
+                    <caption>Embeddable</caption>
+                    <info>No html/body tags, suitable for AJAX calls.</info>
+                </embeddable>
+            </options>
+        </layout>
+        <tag>
+            <caption><![CDATA[
+                Page tag (for sidebar widgets control):
+            ]]></caption>
+            <placeholder>Lowercase letters and underscores only</placeholder>
+        </tag>
+        <description>
+            <caption>Description:</caption>
+            <placeholder>Type a description for the document or leave empty to fill it with an excerpt of the document when saving the page.</placeholder>
+        </description>
+        <featured_image>
+            <caption>Featured image:</caption>
+            <set>Set...</set>
+            <remove>Remove</remove>
+        </featured_image>
+        <content>
+            <placeholder>Type the page contents</placeholder>
+        </content>
+        <html_head><![CDATA[ Optional <code>&lt;head&gt;</code> markup ]]></html_head>
+        <pre_content>Optional pre-contents markup</pre_content>
+        <post_content>Optional post-contents markup</post_content>
+        <cancel>Cancel</cancel>
+        <preview>Preview</preview>
+        <save>Save</save>
+    </form>
+    
+    <actions>
+        <open>Open</open>
+        <edit>Edit</edit>
+        <hide>Hide</hide>
+        <show>Show</show>
+        <delete>Delete</delete>
+        <duplicate>Duplicate</duplicate>
+    </actions>
+    
+    <copy_of>Copy of</copy_of>
+    <copy>copy</copy>
+    <all_paths>Show all paths</all_paths>
+    
+    <messages>
+        <file_exists>Another file exists in the same path. Please change it.</file_exists>
+        <file_not_found>Sorry, but the file wasn't found.</file_not_found>
+        <cannot_create_path>Cannot create data path. Please check permissions of the data directory.</cannot_create_path>
+        <cannot_create_doc_path>Cannot create document directory. Please check the path and try again.</cannot_create_doc_path>
+        <no_pages_found>No pages have been found.</no_pages_found>
+        <missing_title>Please type a title for the page.</missing_title>
+        <missing_content>Please type some contents for the page.</missing_content>
+        <invalid_layout>Please specify a valid layout for the page.</invalid_layout>
+        <extension_forbidden>Sorry, but only the next file extensions are allowed: html, php.</extension_forbidden>
+        <cannot_save_file>Can't save file %s. Please check the path and try again.</cannot_save_file>
+        <cannot_delete_file>Can't delete file. Please remove it manually through FTP or SSH.</cannot_delete_file>
+        <invalid_visibility_flag>Invalid visibility flag received.</invalid_visibility_flag>
+    </messages>
+    
+</language>
