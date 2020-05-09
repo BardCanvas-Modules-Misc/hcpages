@@ -144,7 +144,7 @@ $class = empty($all_paths) ? "no_paths" : "";
                 <? endif; ?>
             </div>
             <div class="actions">
-                <a class="action open" href="<?= $document->get_permalink() ?>"><i
+                <a class="action open" href="<?= $document->get_permalink() ?>" target="_blank"><i
                    class="fa fa-link fa-fw"></i><?= $current_module->language->actions->open ?></a>
                 <a class="action edit greengo" href="<?= $_SERVER["PHP_SELF"] ?>?edit=<?= urlencode($document->path) ?>"><i
                    class="fa fa-pencil fa-fw"></i><?= $current_module->language->actions->edit ?></a>
