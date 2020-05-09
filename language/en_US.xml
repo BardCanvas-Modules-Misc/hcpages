@@ -73,7 +73,8 @@
         <post_content>Optional post-contents markup</post_content>
         <cancel>Cancel</cancel>
         <preview>Preview</preview>
-        <save>Save</save>
+        <save_and_close>Save and close</save_and_close>
+        <just_save>Just save</just_save>
     </form>
     
     <actions>

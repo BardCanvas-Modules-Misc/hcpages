@@ -35,6 +35,7 @@ $return_to = $_GET["return_to_self"] == "true"
     <input type="hidden" name="original_path" value="<?= $is_dupe ? "" : $document->path ?>">
     <input type="hidden" name="hidden" value="<?= $document->hidden ?>">
     <input type="hidden" name="preview" value="false">
+    <input type="hidden" name="keep_open" value="false">
     
     <div class="multicol cols-2">
         <div class="col">
@@ -174,6 +175,8 @@ $return_to = $_GET["return_to_self"] == "true"
             ?></textarea>
     </fieldset>
     
+    <!-- Buttons -->
+    
     <p align="center">
         <button type="reset" class="big_form_submit_button"
                 onclick="location.href = '<?= $return_to ?>'">
@@ -188,9 +191,14 @@ $return_to = $_GET["return_to_self"] == "true"
         </button>
         -->
         &nbsp;
-        <button type="submit" class="big_form_submit_button">
+        <button type="submit" class="big_form_submit_button" onclick="$('input[name=keep_open]').val('false')">
+            <i class="fa fa-check"></i>
+            <?= $current_module->language->form->save_and_close ?>
+        </button>
+        &nbsp;
+        <button type="submit" class="big_form_submit_button" onclick="$('input[name=keep_open]').val('true')">
             <i class="fa fa-save"></i>
-            <?= $current_module->language->form->save ?>
+            <?= $current_module->language->form->just_save ?>
         </button>
     </p>
     
@@ -313,7 +321,7 @@ $return_to = $_GET["return_to_self"] == "true"
         $.blockUI(blockUI_default_params);
     }
     
-    function process_form_response(response)
+    function process_form_response(response, statusText, xhr, $form)
     {
         if( response !== 'OK' )
         {
@@ -323,7 +331,10 @@ $return_to = $_GET["return_to_self"] == "true"
             return;
         }
         
-        location.href = '?';
+        if( $form.find('input[name=keep_open]').val() === 'true' )
+            $.unblockUI();
+        else
+            location.href = '?';
     }
     
     $composer.ajaxForm({
