@@ -21,5 +21,11 @@
     <php_includes>
         <document_handler>document_handler.inc</document_handler>
     </php_includes>
+
+    <template_includes>
+        <html_head priority="910">html_head.inc</html_head>
+        <content_top>content_top.inc</content_top>
+        <content_bottom>content_bottom.inc</content_bottom>
+    </template_includes>
     
 </module>

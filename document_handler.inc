@@ -30,6 +30,7 @@ if( $document->hidden && ! $account->has_admin_rights_to_module("hcpages") ) thr
 $author = new account();
 if( ! empty($document->created_by) ) $author = new account($document->created_by);
 
+$config->globals["@hcpages:called_from_page_renderer"] = true;
 $template->set_page_title($document->title);
 $template->page_meta_description       = $document->description;
 $template->page_meta_url               = $document->get_permalink(true);
