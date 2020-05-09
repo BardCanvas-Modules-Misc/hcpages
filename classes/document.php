@@ -14,7 +14,7 @@ class document extends abstract_record
     public $featured_image_path;
     public $tag;
     
-    public $head_markuphead_markup;
+    public $head_markup;
     public $pre_content_markup;
     public $post_content_markup;
     
@@ -57,7 +57,7 @@ class document extends abstract_record
         $this->content                = trim($xml->content               );
         $this->featured_image_path    = trim($xml->featured_image_path   );
         $this->tag                    = trim($xml->tag                   );
-        $this->head_markuphead_markup = trim($xml->head_markuphead_markup);
+        $this->head_markup            = trim($xml->head_markup           );
         $this->pre_content_markup     = trim($xml->pre_content_markup    );
         $this->post_content_markup    = trim($xml->post_content_markup   );
         $this->creation_date          = trim($xml->creation_date         );
@@ -85,7 +85,7 @@ class document extends abstract_record
         add_cdata_node("content", $this->content, $root);
         $root->addChild("featured_image_path", $this->featured_image_path);
         $root->addChild("tag", $this->tag);
-        add_cdata_node("head_markuphead_markup", $this->head_markuphead_markup, $root);
+        add_cdata_node("head_markup", $this->head_markup, $root);
         add_cdata_node("pre_content_markup", $this->pre_content_markup, $root);
         add_cdata_node("post_content_markup", $this->post_content_markup, $root);
         $root->addChild("creation_date", $this->creation_date);

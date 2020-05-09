@@ -151,7 +151,7 @@ $return_to = $_GET["return_to_self"] == "true"
     
     <fieldset>
         <legend><?= $current_module->language->form->html_head ?></legend>
-        <textarea class="CodeMirror" mode="htmlmixed" name="html_head"><?
+        <textarea class="CodeMirror" mode="htmlmixed" id="head_markup_ta" name="head_markup"><?
             echo htmlspecialchars($document->head_markup);
             ?></textarea>
     </fieldset>
@@ -160,7 +160,7 @@ $return_to = $_GET["return_to_self"] == "true"
     
     <fieldset>
         <legend><?= $current_module->language->form->pre_content ?></legend>
-        <textarea class="CodeMirror" mode="htmlmixed" name="pre_content_markup"><?
+        <textarea class="CodeMirror" mode="htmlmixed" id="pre_content_markup_ta" name="pre_content_markup"><?
             echo htmlspecialchars($document->pre_content_markup);
             ?></textarea>
     </fieldset>
@@ -169,7 +169,7 @@ $return_to = $_GET["return_to_self"] == "true"
     
     <fieldset>
         <legend><?= $current_module->language->form->post_content ?></legend>
-        <textarea class="CodeMirror" mode="htmlmixed" name="post_content_markup"><?
+        <textarea class="CodeMirror" mode="htmlmixed" id="post_content_markup_ta" name="post_content_markup"><?
             echo htmlspecialchars($document->post_content_markup);
             ?></textarea>
     </fieldset>
@@ -298,6 +298,14 @@ $return_to = $_GET["return_to_self"] == "true"
             var content = editor.getContent();
             $(this).val( content );
         });
+        
+        $form.find('textarea[class="CodeMirror"]').each(function()
+        {
+            var $this  = $(this);
+            var editor = $this.data('editor');
+            var markup = editor.getValue();
+            $this.val( markup );
+        });
     }
     
     function prepare_form_submission()
@@ -360,16 +368,18 @@ $return_to = $_GET["return_to_self"] == "true"
     {
         $('textarea.CodeMirror').each(function()
         {
-            var mode    = $(this).attr('mode');
-            var element = $(this).get(0);
-        
-            CodeMirror.fromTextArea(element, {
+            var $this   = $(this);
+            var mode    = $this.attr('mode');
+            var element = $this.get(0);
+            
+            var ed = CodeMirror.fromTextArea(element, {
                 viewPortMargin: Infinity,
                 lineNumbers:    true,
                 mode:           mode,
                 foldGutter:     true,
                 gutters:        ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
             });
+            $this.data('editor', ed);
         });
     });
 </script>
