@@ -75,6 +75,13 @@
         <preview>Preview</preview>
         <save_and_close>Save and close</save_and_close>
         <just_save>Just save</just_save>
+        <custom_fields>
+            <legend>Custom fields</legend>
+            <add>Add</add>
+            <delete>Delete</delete>
+            <name>Specify a name for the field</name>
+            <value>Specify a value</value>
+        </custom_fields>
     </form>
     
     <actions>

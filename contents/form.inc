@@ -175,6 +175,42 @@ $return_to = $_GET["return_to_self"] == "true"
             ?></textarea>
     </fieldset>
     
+    <!-- Custom fields -->
+    
+    <br>
+    <fieldset id="custom_fields_container">
+        <legend><?= $current_module->language->form->custom_fields->legend ?></legend>
+        <div id="custom_fields" class="multicol cols-2">
+            <? if( ! empty($document->custom_fields) ):
+                foreach($document->custom_fields as $key => $val):
+                    ?>
+                    <div class="custom_field col field">
+                        <div class="caption nowrap">
+                            <input type="text" name="custom_field_names[]" value="<?= $key ?>"
+                                   placeholder="<?= $current_module->language->form->custom_fields->name ?>"
+                                   style="width: calc(100% - 24px)">
+                            <i class="fa fa-trash fa-fw fa-lg pseudo_link"
+                               onclick="remove_custom_field(this)"></i>
+                        </div>
+                        <div class="input">
+                            <textarea name="custom_field_vals[]" rows="3" wrap="off"
+                                      placeholder="<?= $current_module->language->form->custom_fields->value ?>"><?
+                                echo htmlspecialchars($val);
+                            ?></textarea>
+                        </div>
+                    </div>
+                    <?
+                endforeach;
+            endif; ?>
+        </div>
+        <div class="add_field">
+            <span class="framed_content inlined state_ok pseudo_link" onclick="add_custom_field()">
+                <i class="fa fa-plus"></i>
+                <?= $current_module->language->form->custom_fields->add ?>
+            </span>
+        </div>
+    </fieldset>
+    
     <!-- Buttons -->
     
     <p align="center">
@@ -206,6 +242,22 @@ $return_to = $_GET["return_to_self"] == "true"
 
 <div id="composer_target" style="display: none"></div>
 
+<template id="custom_field_template">
+    <div class="custom_field col field">
+        <div class="caption nowrap">
+            <input type="text" name="custom_field_names[]"
+                   placeholder="<?= $current_module->language->form->custom_fields->name ?>"
+                   style="width: calc(100% - 24px)">
+            <i class="fa fa-trash fa-fw fa-lg pseudo_link"
+               onclick="remove_custom_field(this)"></i>
+        </div>
+        <div class="input">
+            <textarea name="custom_field_vals[]" rows="3" wrap="off"
+                      placeholder="<?= $current_module->language->form->custom_fields->value ?>"></textarea>
+        </div>
+    </div>
+</template>
+
 <style type="text/css">
     #composer .featured_image .thumbnail {
         border: 1px solid; background-color: transparent;
@@ -218,6 +270,16 @@ $return_to = $_GET["return_to_self"] == "true"
         -ms-transform:     translate(-50%,-50%);
         transform:         translate(-50%,-50%);
     }
+    
+    /*
+    .custom_field                       { display: flex; flex-wrap: wrap; }
+    .custom_field .input_name           { flex-grow: 4; padding: 4px; }
+    .custom_field .input_name     input { width:100%; }
+    .custom_field .input_val            { flex-grow: 6; padding: 4px; }
+    .custom_field .field_buttons        { white-space: nowrap; padding: 4px; }
+    .custom_field .field_buttons  .fa   { position: relative; top: -2px; }
+    */
+    
 </style>
 
 <script type="text/javascript">
@@ -295,6 +357,18 @@ $return_to = $_GET["return_to_self"] == "true"
         var empty_src = $form.find('.input.featured_image .thumbnail img').attr('data-empty-src');
         $form.find('input[name="featured_image_path"]').val('');
         $form.find('.input.featured_image .thumbnail img').attr('src', empty_src);
+    }
+    
+    function add_custom_field()
+    {
+        var $item = $( $('#custom_field_template').html() );
+        $('#custom_fields').append($item);
+        $item.find('input[name="custom_field_names[]"]').focus();
+    }
+    
+    function remove_custom_field(trigger)
+    {
+        $(trigger).closest('.custom_field').fadeOut('fast', function() { $(this).remove(); });
     }
     
     function prepare_form_serialization($form)

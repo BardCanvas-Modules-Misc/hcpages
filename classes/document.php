@@ -23,6 +23,8 @@ class document extends abstract_record
     public $last_update;
     public $hidden;
     
+    public $custom_fields = array();
+    
     public function __construct($file = "")
     {
         if( ! empty($file) && is_file($file) ) $this->set_from_file($file);
@@ -35,9 +37,29 @@ class document extends abstract_record
     
     public function set_from_post()
     {
-        foreach( $_POST as $key => $val )
-            if( is_string($val) )
-                $this->{$key} = trim(stripslashes($val));
+        $this->path                   = trim(stripslashes($_POST["path"]));
+        $this->layout                 = trim(stripslashes($_POST["layout"]));
+        $this->title                  = trim(stripslashes($_POST["title"]));
+        $this->description            = trim(stripslashes($_POST["description"]));
+        $this->content                = trim(stripslashes($_POST["content"]));
+        $this->featured_image_path    = trim(stripslashes($_POST["featured_image_path"]));
+        $this->tag                    = trim(stripslashes($_POST["tag"]));
+        $this->head_markup            = trim(stripslashes($_POST["head_markup"]));
+        $this->pre_content_markup     = trim(stripslashes($_POST["pre_content_markup"]));
+        $this->post_content_markup    = trim(stripslashes($_POST["post_content_markup"]));
+        
+        if( is_array($_POST["custom_field_names"]) )
+        {
+            $this->custom_fields = array();
+            foreach($_POST["custom_field_names"] as $index => $key )
+            {
+                $key = trim($key);
+                $val = trim(stripslashes($_POST["custom_field_vals"][$index]));
+                if( empty($key) || empty($val) ) continue;
+                
+                $this->custom_fields[$key] = $val;
+            }
+        }
     }
     
     public function set_from_file($file)
@@ -65,6 +87,16 @@ class document extends abstract_record
         $this->last_update            = trim($xml->last_update           );
         $this->hidden                 = trim($xml->hidden                );
         $this->last_update            = date("Y-m-d H:i:s", filemtime($file));
+        
+        if( ! empty($xml->custom_fields->field) )
+        {
+            $this->custom_fields = array();
+            foreach($xml->custom_fields->field as $field)
+            {
+                $key = trim($field["key"]);
+                $this->custom_fields[$key] = trim($field);
+            }
+        }
     }
     
     /**
@@ -91,6 +123,16 @@ class document extends abstract_record
         $root->addChild("creation_date", $this->creation_date);
         $root->addChild("created_by", $this->created_by);
         $root->addChild("hidden", $this->hidden);
+        
+        if( ! empty($this->custom_fields) )
+        {
+            $parent = $root->addChild("custom_fields");
+            foreach($this->custom_fields as $key => $val)
+            {
+                $child = add_cdata_node("field", $val, $parent);
+                $child->addAttribute("key", $key);
+            }
+        }
         
         $doc = new \DOMDocument();
         $doc->preserveWhiteSpace = false;
