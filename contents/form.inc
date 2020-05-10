@@ -79,6 +79,7 @@ $return_to = $_GET["return_to_self"] == "true"
                             <input type="radio" name="layout" <?= $sel ?> value="<?= $val ?>">
                             <?= $node->caption ?>
                         </label>
+                        •
                         <em><?= $node->info ?></em><br>
                     <? endforeach; ?>
                 </div>
