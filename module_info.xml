@@ -21,7 +21,22 @@
     <php_includes>
         <document_handler>document_handler.inc</document_handler>
     </php_includes>
-
+    
+    <shortcode_handlers>
+        <handler name="page_title">
+            <syntax>[page_title path="document_path" processed="true|false" include_autolinks="true|false" class="css classes" style="css styles"]</syntax>
+            <file>shortcode_handlers/page_title.inc</file>
+        </handler>
+        <handler name="page_description">
+            <syntax>[page_description path="document_path" class="css classes" style="css styles"]</syntax>
+            <file>shortcode_handlers/page_excerpt.inc</file>
+        </handler>
+        <handler name="page_content">
+            <syntax>[page_content path="document_path" processed="true|false" class="css classes" style="css styles"]</syntax>
+            <file>shortcode_handlers/page_content.inc</file>
+        </handler>
+    </shortcode_handlers>
+    
     <template_includes>
         <html_head priority="910">html_head.inc</html_head>
         <content_top>content_top.inc</content_top>
