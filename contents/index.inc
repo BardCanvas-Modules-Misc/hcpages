@@ -137,13 +137,17 @@ $class = empty($all_paths) ? "no_paths" : "";
                       class="fa <?= $icon ?> fa-fw"></i><?
                     echo $current_module->language->form->layout->options->{$document->layout}->caption
                     ?></span>
+                
                 <? if( ! empty($document->creation_date) ): ?>
                     <span class="page_creation_date important"><i
                           class="fa fa-plus-square-o fa-fw"></i><?= time_today_string($document->creation_date) ?></span>
                 <? endif; ?>
+                
                 <span class="page_last_update important"><i
                       class="fa fa-clock-o fa-fw"></i><?= time_elapsed_string($document->last_update) ?></span>
-                <? if( $all_authors[$document->created_by] ): $author = $all_authors[$document->created_by]; ?>
+                
+                <? if( $account->id_account != $document->created_by && $all_authors[$document->created_by] ):
+                    $author = $all_authors[$document->created_by]; ?>
                     <a class="important page_created_by user_display_name" data-user-level="<?= $author->id_account ?>"
                        href="<?= $config->full_root_path ?>/user/<?= $author->user_name ?>"><i
                        class="fa fa fa-user fa-fw"></i><?= $author->get_processed_display_name() ?></a>
@@ -176,7 +180,7 @@ $class = empty($all_paths) ? "no_paths" : "";
     @media all and (min-width:  700px) { .page_item { width: calc( 33% - 23px) } }
     @media all and (min-width: 1024px) { .page_item { width: calc( 20% - 25px) } }
     @media all and (min-width: 1360px) { .page_item { width: calc( 15% -  3px) } }
-    @media all and (min-width: 1920px) { .page_item { width: calc( 10% -  5px) } }
+    @media all and (min-width: 1920px) { .page_item { width: calc( 12% - 15px) } }
     
     .page_item .path            { font-family: "Lucida Console", "Courier New", monospace; text-align: center;
                                   font-size: 7pt; line-height: normal; padding: 2px;
