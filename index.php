@@ -122,7 +122,8 @@ if( $_GET["mode"] == "save" )
         if( ! @mkdir($path) )
             die($current_module->language->messages->cannot_create_path);
     
-    $document = new document();
+    $tmp_path = ltrim(trim(stripslashes($_POST["path"])), "/");
+    $document = new document("{$config->datafiles_location}/hcpages/{$tmp_path}.xml");
     $document->set_from_post();
     $document->path = trim($document->path, "/");
     
@@ -152,10 +153,11 @@ if( $_GET["mode"] == "save" )
     
     $original_path = trim(stripslashes($_POST["original_path"]));
     if( empty($original_path) )
-    {
         if( is_file("{$config->datafiles_location}/hcpages/{$document->path}.xml") )
             die($current_module->language->messages->file_exists);
-        
+    
+    if( empty($document->creation_date) )
+    {
         $document->creation_date = date("Y-m-d H:i:s");
         $document->created_by    = $account->id_account;
     }
