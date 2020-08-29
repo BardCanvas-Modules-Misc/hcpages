@@ -50,6 +50,8 @@ if( ! empty($author_ids) )
     $accounts_repo = new accounts_repository();
     $all_authors   = $accounts_repo->get_multiple($author_ids);
 }
+
+$preselected_path = "";
 ?>
 
 <h1 class="clearfix">
@@ -59,8 +61,10 @@ if( ! empty($author_ids) )
     <? if( ! empty($all_paths) ): ?>
         <select id="path_filter" onchange="filter_files(this.options[this.selectedIndex].value)">
             <option selected value=""><?= $current_module->language->all_paths ?></option>
-            <? foreach($all_paths as $path): ?>
-                <option value="<?= $path ?>"><?= $path ?></option>
+            <? foreach($all_paths as $path):
+                $selected = $account->engine_prefs["@hcpages:files_filter"] == $path ? "selected" : "";
+                if( $selected ) $preselected_path = $path; ?>
+                <option <?= $selected ?> value="<?= $path ?>"><?= $path ?></option>
             <? endforeach; ?>
         </select>
     <? endif; ?>
@@ -106,10 +110,12 @@ $class = empty($all_paths) ? "no_paths" : "";
 <div class="pages_browser <?= $class ?>">
     <? foreach($all_pages as $document):
         $class  = $document->hidden ? "page_hidden" : "";
+        $path   = dirname("/{$document->path}");
+        $style  = empty($preselected_path) ? "" : ($path == $preselected_path ? "" : "display: none");
         ?>
-        <div class="page_item content_frame <?= $class ?>" data-path="<?= dirname("/{$document->path}") ?>"
-             data-docpath="<?= $document->path ?>">
-            <div class="path"><?= dirname("/{$document->path}") ?></div>
+        <div class="page_item content_frame <?= $class ?>" data-path="<?= $path ?>" data-docpath="<?= $document->path ?>" 
+             style="<?= $style ?>">
+            <div class="path"><?= $path ?></div>
             <? if( empty($document->featured_image_path) ): ?>
                 <div class="featured_image" style="background-color: silver; background-image: url('<?= $config->full_root_path ?>/media/missing_image.png'); background-size: 64px;"></div>
             <? else: ?>
@@ -202,13 +208,15 @@ $class = empty($all_paths) ? "no_paths" : "";
     {
         var $items = $('.page_item');
         
+        set_engine_pref('@hcpages:files_filter', path);
+        
         if( path === '' )
         {
             $items.show();
             
             return;
         }
-    
+        
         $items.each(function()
         {
             var $this    = $(this);
