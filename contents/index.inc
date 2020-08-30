@@ -147,8 +147,9 @@ $class = empty($all_paths) ? "no_paths" : "";
             <div class="description"><?= $document->description ?></div>
             <div class="meta" style="height: 1rem;">
                 <? if( ! empty($document->tag) ): ?>
-                    <span class='inline-block nowrap' style='width: 100%; overflow: hidden; text-overflow: ellipsis'><i 
-                          class='fa fa-hashtag fa-fw'></i><?= $document->tag ?></span>
+                    <span><span class='alternate inline-block nowrap'
+                          style='width: 100%; overflow: hidden; text-overflow: ellipsis'><i 
+                          class='fa fa-hashtag fa-fw'></i><?= $document->tag ?></span></span>
                 <? endif; ?>
             </div>
             
