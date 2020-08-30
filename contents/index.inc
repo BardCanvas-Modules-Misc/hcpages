@@ -51,7 +51,14 @@ switch($account->engine_prefs["@hcpages:browser.display_order"])
     case "oldest":   usort($all_pages, function($a, $b) { return $a->creation_date > $b->creation_date; }); break;
     case "updated":  usort($all_pages, function($a, $b) { return $a->last_update   < $b->last_update;   }); break;
     case "-updated": usort($all_pages, function($a, $b) { return $a->last_update   > $b->last_update;   }); break;
-    case "page_tag": usort($all_pages, function($a, $b) { return "$a->tag | $a->path" > "$b->tag | $b->path"; }); break;
+    case "title":    usort($all_pages, function($a, $b) { return $a->title         > $b->title;         }); break;
+    case "page_tag":
+        usort($all_pages, function($a, $b) { return "$a->tag | $a->path" > "$b->tag | $b->path"; }); break;
+    default: # directory + title
+        usort($all_pages, function($a, $b) {
+            $apath = dirname("/$a->path"); $bpath = dirname("/$b->path");
+            return "$apath | $a->title" > "$bpath | $b->title";
+        }); break;
 }
 
 if( ! empty($author_ids) )
