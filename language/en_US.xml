@@ -18,6 +18,14 @@
         <create>Create page</create>
         <creating>Creating page</creating>
         <editing>Editing page</editing>
+        <sorting>
+            <option value=""        >Sort by path</option>
+            <option value="newest"  >Newest first</option>
+            <option value="oldest"  >Oldest first</option>
+            <option value="updated" >Updated first</option>
+            <option value="-updated">Updated last</option>
+            <option value="page_tag">Sort by page tag</option>
+        </sorting>
     </index>
     
     <form>

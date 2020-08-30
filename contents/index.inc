@@ -45,6 +45,15 @@ if( is_dir($path) )
     if( count($all_paths) == 1 ) $all_paths = array();
 }
 
+switch($account->engine_prefs["@hcpages:browser.display_order"])
+{
+    case "newest":   usort($all_pages, function($a, $b) { return $a->creation_date < $b->creation_date; }); break;
+    case "oldest":   usort($all_pages, function($a, $b) { return $a->creation_date > $b->creation_date; }); break;
+    case "updated":  usort($all_pages, function($a, $b) { return $a->last_update   < $b->last_update;   }); break;
+    case "-updated": usort($all_pages, function($a, $b) { return $a->last_update   > $b->last_update;   }); break;
+    case "page_tag": usort($all_pages, function($a, $b) { return "$a->tag | $a->path" > "$b->tag | $b->path"; }); break;
+}
+
 if( ! empty($author_ids) )
 {
     $accounts_repo = new accounts_repository();
@@ -69,12 +78,25 @@ $preselected_path = "";
         </select>
     <? endif; ?>
     
+    <? if( ! empty($all_pages) ): ?>
+        <select onchange="var val = this.options[this.selectedIndex].value; $(this).block(blockUI_smallest_params); set_engine_pref('@hcpages:browser.display_order', val, function() { $('#docs_browser_refresher').click(); })">
+            <? foreach($current_module->language->index->sorting->option as $option)
+                echo sprintf(
+                    "<option %s value='%s'>%s</option>",
+                    $account->engine_prefs["@hcpages:browser.display_order"] == trim($option["value"]) ? "selected" : "",
+                    $option["value"],
+                    $option
+                ); ?>
+        </select>
+    <? endif; ?>
+    
     <button onclick="location.href = '?mode=create'">
         <i class="fa fa-plus"></i>
         <?= $current_module->language->index->create ?>
     </button>
     
-    <button class="pull-right" onclick="location.href = '?wasuuup=<?= md5(mt_rand(1, 65535)) ?>'">
+    <button id="docs_browser_refresher" class="pull-right"
+            onclick="location.href = '?wasuuup=<?= md5(mt_rand(1, 65535)) ?>'">
         <i class="fa fa-refresh"></i>
         <?= $language->reload ?>
     </button>
