@@ -38,17 +38,17 @@ $tag = $document->layout == "main" ? "article" : "div";
                         <i class="fa fa-pencil fa-fw"></i>
                         <?= $current_module->language->actions->edit ?>
                     </a>
-                <? endif; ?>
-                <? if( $document->hidden ): ?>
-                    <span class="item action show" onclick="toggle_file('visible', '<?= addslashes($document->path) ?>')">
-                        <i class="fa fa-eye"></i>
-                        <?= $current_module->language->actions->show ?>
-                    </span>
-                <? else: ?>
-                    <span class="item action hide" onclick="toggle_file('hidden', '<?= addslashes($document->path) ?>')">
-                        <i class="fa fa-eye-slash"></i>
-                        <?= $current_module->language->actions->hide ?>
-                    </span>
+                    <? if( $document->hidden ): ?>
+                        <span class="item action show" onclick="toggle_file('visible', '<?= addslashes($document->path) ?>')">
+                            <i class="fa fa-eye"></i>
+                            <?= $current_module->language->actions->show ?>
+                        </span>
+                    <? else: ?>
+                        <span class="item action hide" onclick="toggle_file('hidden', '<?= addslashes($document->path) ?>')">
+                            <i class="fa fa-eye-slash"></i>
+                            <?= $current_module->language->actions->hide ?>
+                        </span>
+                    <? endif; ?>
                 <? endif; ?>
             </p>
         <? endif; ?>
