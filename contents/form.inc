@@ -16,12 +16,28 @@ $is_dupe   = ! empty($_GET["duplicate"]);
 $return_to = $_GET["return_to_self"] == "true"
            ? "{$config->full_root_path}/{$document->path}"
            : ("?wasuuup=" . md5(mt_rand(1, 65535)));
+$code_edit = $_GET["use_code_editor"] == "true";
 
+if( strtolower(substr($document->content, 0, 15)) == "<!doctype html>" ) $code_edit = true;
 ?>
 
 <h1 class="clearfix">
     
     <?= $template->get_page_title(false) ?>
+    
+    <? if( $code_edit ): ?>
+        <span class="framed_content inlined pseudo_link"
+              onclick="location.href = '<?= $_SERVER["PHP_SELF"] ?>?edit=<?= urlencode($document->path) ?>'">
+            <i class="fa fa-paint-brush"></i>
+            <?= $current_module->language->switch_to_visual_editor ?>
+        </span>
+    <? else: ?>
+        <span class="framed_content inlined pseudo_link"
+              onclick="location.href = '<?= $_SERVER["PHP_SELF"] ?>?edit=<?= urlencode($document->path) ?>&use_code_editor=true'">
+            <i class="fa fa-code"></i>
+            <?= $current_module->language->switch_to_code_editor ?>
+        </span>
+    <? endif; ?>
     
     <a id="return_link" class="framed_content inlined pseudo_link pull-right" href="<?= $return_to ?>">
         <i class="fa fa-reply"></i>
@@ -118,7 +134,32 @@ $return_to = $_GET["return_to_self"] == "true"
                     <?= $current_module->language->form->featured_image->caption ?>
                 </div>
                 <div class="input featured_image aligncenter">
+                    <?
+                    $src = empty($document->featured_image_path)
+                        ? "{$config->full_root_path}/media/missing_image.png"
+                        : $document->featured_image_path;
+                    ?>
+                    <div class="image_selector_container" align="center">
+                        <input type="hidden" class="src_image_value" name="featured_image_path" 
+                               value="<?= $document->featured_image_path ?>">
+                        
+                        <a class="prettyPhoto" href="<?= $src ?>"><img class="settings_image_selector"
+                           src="<?= $src ?>" style="height: 150px"
+                           data-empty-src="<?= $config->full_root_path ?>/media/missing_image.png"></a><br>
+                        
+                        <span class="pseudo_link" onclick="set_image(this, 'full')">
+                            <?= $current_module->language->form->featured_image->set ?>
+                        </span>
+                        &nbsp;
+                        <span class="pseudo_link" onclick="remove_image(this)">
+                            <?= $current_module->language->form->featured_image->remove ?>
+                        </span>
+                    </div>
+                    
+                    
+                    <!--
                     <input type="hidden" name="featured_image_path" value="<?= $document->featured_image_path ?>">
+                    
                     <div class="thumbnail preview featured_image pseudo_link"
                          onclick="set_doc_featured_image()">
                         <? $image_path = empty($document->featured_image_path)
@@ -136,6 +177,7 @@ $return_to = $_GET["return_to_self"] == "true"
                             <?= $current_module->language->form->featured_image->remove ?>
                         </span>
                     </div>
+                    -->
                 </div>
             </div>
         </div>
@@ -143,10 +185,17 @@ $return_to = $_GET["return_to_self"] == "true"
     
     <!-- Content -->
     <div class="field tinymce_container">
-        <textarea name="content" id="post_content_editor" class="tinymce_full"
-                  placeholder="<?= $current_module->language->form->content->placeholder ?>"><?
-            echo htmlspecialchars($document->content);
-            ?></textarea>
+        <? if( $code_edit ): ?>
+            <textarea name="content" id="post_content_editor" class="CodeMirror" mode="htmlmixed"
+                      placeholder="<?= $current_module->language->form->content->placeholder ?>"><?
+                echo htmlspecialchars($document->content);
+                ?></textarea>
+        <? else: ?>
+            <textarea name="content" id="post_content_editor" class="tinymce_full"
+                      placeholder="<?= $current_module->language->form->content->placeholder ?>"><?
+                echo htmlspecialchars($document->content);
+                ?></textarea>
+        <? endif; ?>
     </div>
     
     <!-- Markup fields -->
@@ -318,48 +367,6 @@ $return_to = $_GET["return_to_self"] == "true"
         $path.val( final_path );
     }
     
-    function set_doc_featured_image()
-    {
-        var editor_id = $composer.find('textarea[class*="tinymce"]').attr('id');
-        var editor    = tinymce.get(editor_id);
-        
-        load_media_browser_in_tinymce_dialog(
-            editor,
-            $(window).width() - 20,
-            $(window).height() - 60,
-            'image',
-            'parent.' + 'set_selected_gallery_image_as_featured_image'
-        );
-    }
-    
-    function set_selected_gallery_image_as_featured_image(
-        id_media, type, file_url, thumbnail_url // , width, height, embed_width
-    ) {
-        var $strings = $('#post_gallery_embed_strings');
-        
-        if( type !== 'image' )
-        {
-            var message = $strings.find('.invalid_type_for_image').text();
-            throw_notification( message, 'warning' );
-            
-            return;
-        }
-        
-        tinymce.activeEditor.windowManager.close();
-        
-        var $form = $composer;
-        $form.find('input[name="featured_image_path"]').val(file_url);
-        $form.find('.input.featured_image .thumbnail img').attr('src', thumbnail_url);
-    }
-    
-    function remove_doc_featured_image()
-    {
-        var $form     = $composer;
-        var empty_src = $form.find('.input.featured_image .thumbnail img').attr('data-empty-src');
-        $form.find('input[name="featured_image_path"]').val('');
-        $form.find('.input.featured_image .thumbnail img').attr('src', empty_src);
-    }
-    
     function add_custom_field()
     {
         var $item = $( $('#custom_field_template').html() );
@@ -468,4 +475,79 @@ $return_to = $_GET["return_to_self"] == "true"
             $this.data('editor', ed);
         });
     });
+</script>
+
+<!-- Gallery imports -->
+
+<style type="text/css">
+    .settings_image_selector { border: 1px solid; max-width: 100%; }
+</style>
+
+<div id="image_selector_dialog" title="<?= $modules["gallery"]->language->tinymce_strings->select_image ?>"
+     style="display: none; overflow: hidden;">
+    <iframe id="image_selector_target" style="width: 100%; height: 100%;" frameborder="0"
+            allowtransparency="true"></iframe>
+</div>
+
+<script type="text/javascript">
+    var selected_image_trigger = null;
+    var return_image_size      = 'full';
+    var image_dialog_title     = '<?= $modules["gallery"]->language->tinymce_strings->select_image ?>';
+    var invalid_type_for_image = '';
+    
+    function set_image(trigger, select_image_size)
+    {
+        selected_image_trigger = trigger;
+        
+        if( typeof select_image_size != 'undefined' ) return_image_size = select_image_size;
+        
+        var url = $_FULL_ROOT_PATH
+            + '/gallery/index.php'
+            + '?embedded_mode=true'
+            + '&search_type=' + 'image'
+            + '&callback='    + 'parent.' + 'set_selected_gallery_image'
+            + '&wasuuup='     + wasuuup();
+        
+        $('#image_selector_target').attr('src', url);
+        $('#image_selector_dialog').dialog('open');
+    }
+    
+    function set_selected_gallery_image(
+        id_media, type, file_url, thumbnail_url, width, height, embed_width
+    ) {
+        if( type != 'image' )
+        {
+            alert( invalid_type_for_image );
+            
+            return;
+        }
+    
+        $('#image_selector_dialog').dialog('close');
+        
+        var image_to_return = return_image_size == 'full' ? file_url : thumbnail_url;
+        
+        var $container = $(selected_image_trigger).closest('.image_selector_container');
+        $container.find('input.src_image_value').val(image_to_return);
+        $container.find('.settings_image_selector').attr('src', image_to_return);
+        $container.find('.settings_image_selector').closest('a').attr('href', image_to_return);
+    }
+    
+    function remove_image(trigger)
+    {
+        var $container = $(trigger).closest('.image_selector_container');
+        var empty_src = $container.find('.settings_image_selector').attr('data-empty-src');
+        $container.find('input.src_image_value').val('');
+        $container.find('.settings_image_selector').attr('src', empty_src);
+        $container.find('.settings_image_selector').closest('a').attr('href', empty_src);
+    }
+    
+    $(document).ready(function()
+    {
+        $('#image_selector_dialog').dialog({
+            modal:    true,
+            autoOpen: false,
+            width:    $(window).width() - 20,
+            height:   $(window).height() - 10
+        });
+    })
 </script>

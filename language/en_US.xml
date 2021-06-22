@@ -7,6 +7,9 @@
         Create off-index documents.
     </description>
     
+    <switch_to_code_editor>Switch to code editing mode</switch_to_code_editor>
+    <switch_to_visual_editor>Switch to visual editing mode</switch_to_visual_editor>
+    
     <admin>
         <menu_items>
             <admin_menu_caption>Pages</admin_menu_caption>
