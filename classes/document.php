@@ -169,7 +169,7 @@ class document extends abstract_record
     
     public function get_processed_content()
     {
-        global $config;
+        global $config, $modules;
         
         $contents = $this->content;
         
@@ -183,6 +183,10 @@ class document extends abstract_record
         $contents = convert_emojis($contents);
         $contents = convert_media_tags($contents);
         $contents = autolink_hash_tags($contents, "{$config->full_root_path}/tag/");
+        
+        $config->globals["processing_contents"] = $contents;
+        $modules["posts"]->load_extensions("post_record_class", "get_processed_content");
+        $contents = $config->globals["processing_contents"];
         
         return $contents;
     }
