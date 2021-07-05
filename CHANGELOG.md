@@ -1,6 +1,12 @@
 
 # Hardcoded Pages Module Change Log
 
+## [1.3.0] - 2021-07-05
+
+- Removed buttons that weren't meant for everyone.
+- Added code editing mode switch.
+- Added extensions support for page contents processing.
+
 ## [1.2.0] - 2020-09-03
 
 - Added mnemonic path filtering on the documents browser.
