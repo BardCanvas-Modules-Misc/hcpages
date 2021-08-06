@@ -19,7 +19,7 @@ $tag = $document->layout == "main" ? "article" : "div";
 ?>
 <<?=$tag?> class="post single_post hcpage clearfix" data-docpath="<?= $document->path ?>"
          data-author-id="<?= $author->id_account ?>" data-author-role="<?= $author->get_role(true) ?>"
-         data-author-level="<?= $author->level ?>" style="<? if($document->hidden) echo "background-color: #ffeeb6"; ?>">
+         data-author-level="<?= $author->level ?>">
     
     <? if( $document->layout != "embeddable" ): ?>
         <h1>
