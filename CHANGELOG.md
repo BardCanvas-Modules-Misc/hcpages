@@ -1,6 +1,10 @@
 
 # Hardcoded Pages Module Change Log
 
+## [1.3.1] - 2021-08-19
+
+- Removed hardcoded background color in the page renderer.
+
 ## [1.3.0] - 2021-07-05
 
 - Removed buttons that weren't meant for everyone.
