@@ -288,6 +288,15 @@ if( strtolower(substr($document->content, 0, 15)) == "<!doctype html>" ) $code_e
         </button>
     </p>
     
+    <? if($code_edit): ?>
+        <button type="submit" 
+                style="position: fixed; right: 0; top: calc(50% - 60px); height: 120px; text-align: center; line-height: 0.8em;"
+                onclick="$('input[name=keep_open]').val('true')">
+            <i class="fa fa-save" style="margin-bottom: 10px;"></i><br>
+            <?= $current_module->language->form->save_now ?>
+        </button>
+    <? endif; ?>
+    
 </form>
 
 <div id="composer_target" style="display: none"></div>

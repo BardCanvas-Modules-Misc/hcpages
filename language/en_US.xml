@@ -94,6 +94,7 @@
             <name>Specify a name for the field</name>
             <value>Specify a value</value>
         </custom_fields>
+        <save_now><![CDATA[ S<br>a<br>v<br>e<br><br>N<br>o<br>w ]]></save_now>
     </form>
     
     <actions>
