@@ -1,6 +1,10 @@
 
 # Hardcoded Pages Module Change Log
 
+## [1.3.2] - 2021-08-29
+
+- Added floating save button in the code editor.
+
 ## [1.3.1] - 2021-08-19
 
 - Removed hardcoded background color in the page renderer.
