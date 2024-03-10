@@ -136,11 +136,14 @@ if( $_GET["mode"] == "save" )
     if( empty($document->path)        ) $document->path = wp_sanitize_filename($document->title);
     if( empty($document->description) ) $document->description = make_excerpt_of($document->content, 200);
     
-    $ext = end(explode(".", $document->path));
-    if( ! empty($ext) )
+    if( stristr($document->path, ".") !== false )
     {
-        if( strlen($ext) == 4 && $ext != "html" ) die($current_module->language->messages->extension_forbidden);
-        if( strlen($ext) == 3 && $ext != "php"  ) die($current_module->language->messages->extension_forbidden);
+        $ext = end(explode(".", $document->path));
+        if( ! empty($ext) )
+        {
+            if( strlen($ext) == 4 && $ext != "html" ) die($current_module->language->messages->extension_forbidden);
+            if( strlen($ext) == 3 && $ext != "php"  ) die($current_module->language->messages->extension_forbidden);
+        }
     }
     
     if( stristr($document->path, "/") )
