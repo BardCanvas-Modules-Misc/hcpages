@@ -38,7 +38,7 @@ $template->page_extra_metas["og:type"] = "<meta property='og:type' content='arti
 if( ! empty($document->featured_image_path) )
 {
     $mrepo = new media_repository();
-    $filter = array("path" => str_replace("/mediaserver", "", $document->featured_image_path), "visibility" => "public");
+    $filter = array("path" => str_replace("/mediaserver/", "", $document->featured_image_path), "visibility" => "public");
     $items  = $mrepo->find($filter, 1, 0, "creation_date desc");
     if( count($items) )
     {
