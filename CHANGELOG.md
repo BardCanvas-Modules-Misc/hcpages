@@ -1,6 +1,11 @@
 
 # Hardcoded Pages Module Change Log
 
+## [1.3.3] - 2024-03-12
+
+- Fixed thumbnail issue in the document handler.
+- Fixed saving error caused by wrong extension used in short named documents.
+
 ## [1.3.2] - 2021-08-29
 
 - Added floating save button in the code editor.
