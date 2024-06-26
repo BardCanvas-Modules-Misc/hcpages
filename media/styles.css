@@ -1,0 +1,39 @@
+/**
+ * Hardcoded Pages styles
+ *
+ * @package    BardCanvas
+ * @subpackage Hardcoded Pages
+ * @author     Alejandro Caballero - lava.caballero@gmail.com
+ */
+
+.page_item { display: inline-block; width: 200px; margin: 10px; padding: 0; vertical-align: top;
+             font-family: Arial, Helvetica, sans-serif; font-size: 10pt; line-height: normal; }
+
+@media all and (min-width:  100px) { .page_item { width: calc(100% - 20px) } }
+@media all and (min-width:  300px) { .page_item { width: calc( 50% - 23px) } }
+@media all and (min-width:  700px) { .page_item { width: calc( 33% - 23px) } }
+@media all and (min-width: 1024px) { .page_item { width: calc( 20% - 25px) } }
+@media all and (min-width: 1360px) { .page_item { width: calc( 15% -  3px) } }
+@media all and (min-width: 1920px) { .page_item { width: calc( 12% - 15px) } }
+
+.page_item .path            { font-family: "Lucida Console", "Courier New", monospace; text-align: center;
+                              font-size: 7pt; line-height: normal; padding: 2px;
+                              color: white; background-color: dimgrey;
+                              white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.page_item .featured_image  { background: center center no-repeat; background-size: cover; height: 100px; }
+.page_item .title           { margin-top: 10px; padding: 0 5px; height: 2.3em; overflow: hidden; }
+.page_item .description     { margin-top: 10px; padding: 0 5px; height: 3.4em; overflow: hidden; }
+.page_item .meta            { margin-top: 10px; padding: 0 5px; font-size: 9pt; height: 3em; overflow: hidden; }
+.page_item .actions         { margin: 10px 5px 5px 5px; text-align: center;}
+.page_item .actions .action { display: inline-block; margin: 0 5px 5px 0; white-space: nowrap; }
+
+.pages_browser .meta > * { display: inline-block; white-space: nowrap; color: darkmagenta; margin: 0 5px 5px 0; }
+
+.pages_browser.no_paths .page_item .path { display: none; }
+
+.page_item.page_hidden                 { background-color: silver; color: dimgrey; }
+.page_item.page_hidden .featured_image { filter: grayscale(100%); opacity: 0.75; }
+
+.page_item             .actions .action.show { display: none; }
+.page_item.page_hidden .actions .action.show { display: inline-block; }
+.page_item.page_hidden .actions .action.hide { display: none; }
