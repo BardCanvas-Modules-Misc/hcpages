@@ -1,6 +1,10 @@
 
 # Hardcoded Pages Module Change Log
 
+## [1.3.4] - 2024-06-27
+
+- Detached styles for easing overrides.
+
 ## [1.3.3] - 2024-03-12
 
 - Fixed thumbnail issue in the document handler.
